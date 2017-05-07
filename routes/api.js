@@ -31,7 +31,7 @@ router.get('/user', function(req, res) {
     connection.query('SELECT * FROM user', function(error, result) {
         if (error) {
             console.log('ไม่สามารถดึงข้อมูล user ได้');
-            throw error;
+            throw error;  
         }
         res.json(result);
     });
