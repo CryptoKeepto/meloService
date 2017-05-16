@@ -7,7 +7,7 @@
 6 silly lifecycle meloservice@0.0.0~prestart: no script for prestart, continuing
 7 info lifecycle meloservice@0.0.0~start: meloservice@0.0.0
 8 verbose lifecycle meloservice@0.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle meloservice@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/mike/Documents/ionic/meloService/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+9 verbose lifecycle meloservice@0.0.0~start: PATH: /usr/local/lib/node_modules/npm/bin/node-gyp-bin:/Users/mike/Documents/ionic/meloService/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/mike/bin
 10 verbose lifecycle meloservice@0.0.0~start: CWD: /Users/mike/Documents/ionic/meloService
 11 silly lifecycle meloservice@0.0.0~start: Args: [ '-c', 'node ./bin/www' ]
 12 silly lifecycle meloservice@0.0.0~start: Returned: code: 1  signal: null
