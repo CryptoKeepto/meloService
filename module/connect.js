@@ -4,6 +4,7 @@ var connection = mysql.createConnection({
     user: 'sittikiat',
     password: '7856ek31',
     database: 'meloDB'
+    // ไม่ไหวแล้ว
 });
 
 
