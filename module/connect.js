@@ -3,7 +3,7 @@ var connection = mysql.createConnection({
     host: 'localhost',
     user: 'sittikiat',
     password: '7856ek31',
-    database: 'melo'
+    database: 'meloDB'
 });
 
 
