@@ -2,90 +2,66 @@ var express = require('express');
 var router = express.Router();
 var connection = require('../module/connect');
 
-/* GET  listing. */
+/* GET  */
 router.get('/', function(req, res) {
     res.render('api');
 });
 
-router.get('/menuFood', function(req, res) {
-    connection.query('SELECT * FROM menu_food', function(error, result) {
-      if (error) {
-          console.log('ไม่สามารถดึงข้อมูล menu_food ได้');
-          throw error;
-      }
-      res.json(result);
-     });
-});
-//ค้นหาตาม id
-router.get('/menuFood/:id', function(req, res) {
+// restaurant
+router.get('/restaurant/:id', (req, res) => {
     let id = req.params.id;
-    connection.query('SELECT * FROM menu_food WHERE food_id =' + id, function(error, result) {
-      if (error) {
-          console.log('ไม่สามารถดึง id menu_food ได้');
-          throw error;
+    let sql = "SELECT * FROM restaurant_category INNER JOIN restaurant ON restaurant_category.id_restaurant_category = restaurant.id_restaurant_category WHERE restaurant.id_restaurant_category =" + id;
+    connection.query(sql, function(err, result) {
+      if (err) {
+          console.log('ไม่สามารถดึงข้อมูล restaurant ได้');
+          throw err;
       }
       res.json(result);
      });
 });
 
-router.get('/resFood', function(req, res) {
-    connection.query('SELECT * FROM res_food', function(error, result) {
-        if (error) {
-            console.log('ไม่สามารถดึงข้อมูล res_food ได้');
-            throw error;
+router.get('/restaurant_category', (req, res) => {
+    let sql = "SELECT * FROM restaurant_category";
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log("ไม่สามารถดึง restaurant_catrgory ได้");
+            throw err;
         }
         res.json(result);
     });
 });
 
-router.get('/resFood/:id', function(req, res) {
+router.get('/restaurant_image/:id', (req, res) => {
     let id = req.params.id;
-    connection.query(`SELECT * FROM res_food WHERE resFood_id =${id}`, function(error, result) {
-        if (error) {
-            console.log('ไม่สามารถดึง id res_food ได้');
-            throw error;
-        }
-        res.json(result);
-    })
-});
-
-router.get('/user', function(req, res) {
-    connection.query('SELECT * FROM user', function(error, result) {
-        if (error) {
-            console.log('ไม่สามารถดึงข้อมูล user ได้');
-            throw error;  
+    let sql = "SELECT * FROM restaurant INNER JOIN restaurant_image ON restaurant.id_restaurant = restaurant_image.id_restaurant WHERE restaurant.id_restaurant =" + id;
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log("ไม่สามารถดึง restaurant_image ได้");
+            throw err;
         }
         res.json(result);
     });
 });
 
-router.get('/user/:id', function(req, res) {
+// menu
+router.get('/menu', (req, res) => {
+    let sql = "SELECT * FROM menu";
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log("ไม่สามารถดึง menu ได้");
+            throw err;
+        }
+        res.json(result);
+    });
+});
+
+router.get('/menu/:id', (req, res) => {
     let id = req.params.id;
-    connection.query(`SELECT * FROM user WHERE user_id=${id}`, function(error, result) {
-        if (error) {
-            console.log('ไม่สามารถดึงข้อมูล user ได้');
-            throw error;  
-        }
-        res.json(result);
-    });
-});
-
-router.get('/admin', function(req, res) {
-    connection.query('SELECT * FROM admin', function(error, result) {
-        if (error) {
-            console.log('ไม่สามารถดึงข้อมูล admin ได้');
-            throw error;
-        }
-        res.json(result);
-    });
-});
-
-router.get('/admin/:id', function(req, res) {
-    let id = req.params.id;
-    connection.query(`SELECT * FROM admin WHERE admin_id=${id}`, function(error, result) {
-        if (error) {
-            console.log('ไม่สามารถดึงข้อมูล admin ได้');
-            throw error;
+    let sql = "SELECT * FROM menu INNER JOIN restaurant ON menu.id_menu = restaurant.id_menu WHERE menu.id_menu = " + id;
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log("ไม่สามารถดึง menu จาก id ได้");
+            throw err;
         }
         res.json(result);
     });
