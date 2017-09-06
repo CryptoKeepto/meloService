@@ -67,5 +67,28 @@ router.get('/menu/:id', (req, res) => {
     });
 });
 
+// user
+router.post('/user_insert', (req, res) => {
+
+    let username = req.body.username;
+    let password = req.body.password;
+    let email = req.body.email;
+    
+    let sql = `INSERT INTO user(username_user, password_user, email_user) VALUES ('${username}', '${password}', '${email}')`;
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log("ไม่สามารถเพิ่ม user ได้");
+            throw err;
+        } else {
+            // result มีค่า
+            if (result) {
+                res.json({status: "success", message: "Success", subMessage: "Congratulations your accound has been successfully created"});
+            } else {
+                res.json({status: "error", message: "Error", subMessage: "Ooops.. something wrong, try one more time"});
+            }
+        }
+    });
+});
+
 
 module.exports = router;
