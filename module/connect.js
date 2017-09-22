@@ -8,7 +8,10 @@ var connection = mysql.createConnection({
 
 
 connection.connect(function(error) {
-    if (error) throw error;
+    if (error) {
+        console.log("database fail");
+        throw error
+    };
     console.log("database connect...");
 });
 
