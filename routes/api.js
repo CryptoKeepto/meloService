@@ -43,6 +43,15 @@ router.get('/restaurant_image/:id', (req, res) => {
     });
 });
 
+router.post('/newrestaurant_image', (req, res) => {
+    let imageData = req.body.imageData;
+    let id = req.body.id;
+    console.log(imageData)
+    console.log(id)
+    // let sql = "INSERT INTO restaurant_image () VALUES ()";
+
+})
+
 // menu
 router.get('/menu', (req, res) => {
     let sql = "SELECT * FROM menu";
