@@ -1,9 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var connection = require('../module/connect');
+var fs = require("fs");
+
+function rename(image) {
+    let extension = image.split(".").pop();
+    let newFilename = Date.now() + "." + extension;
+    return newFilename;
+}
 
 /* GET  */
-router.get('/', function(req, res) {
+router.get('/', function (req, res) {
     res.render('api');
 });
 
@@ -11,13 +18,13 @@ router.get('/', function(req, res) {
 router.get('/restaurant/:id', (req, res) => {
     let id = req.params.id;
     let sql = "SELECT * FROM restaurant_category INNER JOIN restaurant ON restaurant_category.id_restaurant_category = restaurant.id_restaurant_category WHERE restaurant.id_restaurant_category =" + id;
-    connection.query(sql, function(err, result) {
-      if (err) {
-          console.log('ไม่สามารถดึงข้อมูล restaurant ได้');
-          throw err;
-      }
-      res.json(result);
-     });
+    connection.query(sql, function (err, result) {
+        if (err) {
+            console.log('ไม่สามารถดึงข้อมูล restaurant ได้');
+            throw err;
+        }
+        res.json(result);
+    });
 });
 
 router.get('/restaurant_category', (req, res) => {
@@ -44,11 +51,25 @@ router.get('/restaurant_image/:id', (req, res) => {
 });
 
 router.post('/newrestaurant_image', (req, res) => {
-    let imageData = req.body.imageData;
     let id = req.body.id;
-    console.log(imageData)
-    console.log(id)
-    // let sql = "INSERT INTO restaurant_image () VALUES ()";
+    let filename = rename("apple.jpg");
+    let imageData = req.body.imageData;
+    let imageToReplace = imageData.replace("data:image/jpeg;base64,", "");
+    
+    fs.mkdir("../images", () => {
+        fs.writeFileSync("../images/" + filename, imageToReplace, "base64");
+        console.log("created image success");
+    })
+
+    let sql = `INSERT INTO restaurant_image (name_restaurant_image, id_restaurant) VALUES ('${filename}', '${id}')`;
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        if (result) {
+            res.json({ status: "success", message: "Success" });
+        } else {
+            res.json({ status: "error", message: "Error" });
+        }
+    })
 
 })
 
@@ -82,7 +103,7 @@ router.post('/user_insert', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
     let email = req.body.email;
-    
+
     let sql = `INSERT INTO user(username_user, password_user, email_user) VALUES ('${username}', '${password}', '${email}')`;
     connection.query(sql, (err, result) => {
         if (err) {
@@ -91,9 +112,9 @@ router.post('/user_insert', (req, res) => {
         } else {
             // result มีค่า
             if (result) {
-                res.json({status: "success", message: "Success", subMessage: "Congratulations your accound has been successfully created"});
+                res.json({ status: "success", message: "Success", subMessage: "Congratulations your accound has been successfully created" });
             } else {
-                res.json({status: "error", message: "Error", subMessage: "Ooops.. something wrong, try one more time"});
+                res.json({ status: "error", message: "Error", subMessage: "Ooops.. something wrong, try one more time" });
             }
         }
     });
