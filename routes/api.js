@@ -15,6 +15,17 @@ router.get('/', function (req, res) {
 });
 
 // restaurant
+router.get("/restaurant", (req, res) => {
+    let sql = "SELECT * FROM restaurant";
+    connection.query(sql, (err, result) => {
+        if (err) {
+            console.log('ไม่สามารถดึงข้อมูล restaurant ได้');
+            throw err;
+        }
+        res.json(result);
+    })
+})
+
 router.get('/restaurant/:id', (req, res) => {
     let id = req.params.id;
     let sql = "SELECT * FROM restaurant_category INNER JOIN restaurant ON restaurant_category.id_restaurant_category = restaurant.id_restaurant_category WHERE restaurant.id_restaurant_category =" + id;
