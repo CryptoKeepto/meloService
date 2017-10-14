@@ -26,6 +26,36 @@ router.get("/restaurant", (req, res) => {
     })
 })
 
+// restaurant comment
+router.get("/restaurant/comment/:id", (req, res) => {
+    let id = req.params.id;
+    let sql = "SELECT id_comment, detail_comment FROM comment INNER JOIN restaurant ON comment.id_restaurant = restaurant.id_restaurant WHERE restaurant.id_restaurant = " + id;
+    connection.query(sql, (err, result) => {
+	if (err) {
+	    console.log("ไม่สามารถดึง comment ได้");
+	    throw err;
+	}
+	res.json(result);
+    })
+})
+
+router.post("/restaurant/comment/new", (req, res) => {
+    let id = req.body.id;
+    let comment = req.body.comment;
+    let sql = `INSERT INTO comment(detail_comment, id_restaurant) VALUES ('${comment}', '${id}')`;
+    connection.query(sql, (err, result) => {
+        if (err) throw err;
+        if (result) {
+	     res.json({ status: "success", message: "Success" });
+	} else {
+	     res.json({ status: "error", message: "Error" });
+	}
+    })
+})
+
+// -------------------
+
+
 router.get('/restaurant/:id', (req, res) => {
     let id = req.params.id;
     let sql = "SELECT * FROM restaurant_category INNER JOIN restaurant ON restaurant_category.id_restaurant_category = restaurant.id_restaurant_category WHERE restaurant.id_restaurant_category =" + id;
