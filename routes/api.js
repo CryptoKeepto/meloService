@@ -55,6 +55,18 @@ router.post("/restaurant/comment/new", (req, res) => {
 
 // -------------------
 
+router.get('/restaurant_detail/:id', (req, res) => {
+    let id = req.params.id;
+    let sql = "SELECT * FROM restaurant WHERE id_restaurant =" + id;
+    connection.query(sql, function (err, result) {
+        if (err) {
+            console.log('ไม่สามารถดึงข้อมูล restaurant ได้');
+            throw err;
+        }
+        res.json(result);
+    });
+});
+
 
 router.get('/restaurant/:id', (req, res) => {
     let id = req.params.id;
